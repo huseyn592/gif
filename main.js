@@ -7,12 +7,13 @@ const sendBtn = document.querySelector(".sendBtn");
 
 sendWP.style.display = "none";
 
-let selectedGifUrl = ''; // Seçilen GIF'in URL'sini saklamak için değişken
+let secilenGIF = ''; 
 
 function searchGIF() {
   const api_key = "oHuY9D8gKkMXhaf69dsdaBTaQuzCsyYK";
-  const limit = 20;
-  const url = `https://api.thecatapi.com/v1/images/search?limit=${limit}&api_key=${api_key}`;
+  const limit = 10;
+
+const url = `https://api.thecatapi.com/v1/images/search?api_key=${api_key}&q=${search.value}&limit=${limit}`
 
   fetch(url)
     .then((response) => response.json())
@@ -29,7 +30,7 @@ function searchGIF() {
         })
         .join("");
     })
-    .catch((error) => console.error('Hata:', error));
+    .catch((error) => console.error('ERRORRR:', error));
 }
 
 search.addEventListener("input", function () {
@@ -40,8 +41,8 @@ card_section.addEventListener("click", function(event) {
   if (event.target && event.target.matches("button.btn")) {
     gif_section.style.display = "none";
     sendWP.style.display = "block";
-    selectedGifUrl = event.target.getAttribute('data-url'); // Seçilen GIF'in URL'sini sakla
-    console.log("Selected GIF URL:", selectedGifUrl); // URL'nin doğru alındığını kontrol etmek için
+    secilenGIF = event.target.getAttribute('data-url'); 
+    console.log("Selected GIF URL:", secilenGIF);
   }
 });
 
@@ -58,11 +59,11 @@ sendBtn.addEventListener("click", function (e) {
     return;
   }
 
-  const phone = send.value; // 'send' input alanından telefon numarasını alın
-  const message = `Hello, check out this GIF: ${selectedGifUrl}`; // Mesaja GIF URL'sini dahil edin
+  const phone = send.value; 
+  const message = `Gif ucun buraya daxil ol ${secilenGIF}`; 
 
   let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-  console.log("WhatsApp URL:", url); // URL'nin doğru oluşturulduğunu kontrol etmek için
+ 
   window.open(url, "_blank");
 });
 
